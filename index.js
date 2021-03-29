@@ -27,7 +27,8 @@ function start(bot) {
         if (state === "CONFLICT" || state === "UNLAUNCHED") bot.forceRefocus();
     });
 
-    bot.onMessage(async message => {
+    bot.onAnyMessage(async message => {
+        // console.log('message: ', message);
         if (message.body.startsWith(prefix)) {
             args = message.body.slice(prefix.length).trim().split(/ +/g);
             command = args.shift().toLowerCase();
@@ -40,6 +41,7 @@ function start(bot) {
             return;
         }
         if (availableCommands.has(command)) {
+            console.log(`User ${message.sender.id} call: ${command}`)
             require(`./commands/${command}`).run(bot, message, args);
         }
     });
